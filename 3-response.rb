@@ -1,4 +1,6 @@
 require 'socket'
+require 'pry'
+require 'uri'
 
 server = TCPServer.new(1337)
 
@@ -46,7 +48,7 @@ loop do
     # Content-Length which help us get the body
     # of the message
     all_headers = {}
-    while true
+    loop do
       line = client.readline
       break if line == "\r\n"
       header_name, value = line.split(": ")
@@ -54,7 +56,6 @@ loop do
     end
     body = client.read(all_headers['Content-Length'].to_i)
 
-    require 'uri'
     new_secret = URI.decode_www_form(body).to_h
     secrets << new_secret.transform_keys(&:to_sym)
   else
