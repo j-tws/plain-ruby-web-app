@@ -17,5 +17,3 @@ loop do
 
   client.close
 end
-
-puts 'lol'
